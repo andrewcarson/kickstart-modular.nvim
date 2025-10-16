@@ -56,4 +56,8 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { desc = '[y]ank (motion/selection)' })
+vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p', { desc = '[p]aste after cursor)' })
+vim.keymap.set({ 'n', 'v' }, '<leader>P', '"+P', { desc = '[P]aste before cursor)' })
+
 -- vim: ts=2 sts=2 sw=2 et
