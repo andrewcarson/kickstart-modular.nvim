@@ -23,6 +23,29 @@ vim.o.showmode = false
 --  vim.o.clipboard = 'unnamedplus'
 --end)
 
+-- In SSH, local clipboard tools don't help, so use OSC 52
+local is_ssh = os.getenv 'SSH_CONNECTION' ~= nil or os.getenv 'SSH_CLIENT' ~= nil or os.getenv 'SSH_TTY' ~= nil
+if is_ssh then
+  local ok, osc52 = pcall(require, 'vim.ui.clipboard.osc52')
+  if ok then
+    vim.g.clipboard = {
+      name = 'OSC 52',
+      copy = {
+        ['+'] = osc52.copy '+',
+        ['*'] = osc52.copy '*',
+      },
+      paste = {
+        ['+'] = function()
+          return false
+        end,
+        ['*'] = function()
+          return false
+        end,
+      },
+    }
+  end
+end
+
 -- Enable break indent
 vim.o.breakindent = true
 
