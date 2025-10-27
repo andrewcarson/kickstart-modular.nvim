@@ -60,4 +60,9 @@ vim.keymap.set({ 'n', 'v' }, '<leader>y', '"+y', { desc = '[y]ank (motion/select
 vim.keymap.set({ 'n', 'v' }, '<leader>p', '"+p', { desc = '[p]aste after cursor)' })
 vim.keymap.set({ 'n', 'v' }, '<leader>P', '"+P', { desc = '[P]aste before cursor)' })
 
+vim.keymap.set('n', '<A-h>', '<C-w>h', { desc = 'Move to left window' })
+vim.keymap.set('n', '<A-j>', '<C-w>j', { desc = 'Move to below window' })
+vim.keymap.set('n', '<A-k>', '<C-w>k', { desc = 'Move to above window' })
+vim.keymap.set('n', '<A-l>', '<C-w>l', { desc = 'Move to right window' })
+
 -- vim: ts=2 sts=2 sw=2 et
