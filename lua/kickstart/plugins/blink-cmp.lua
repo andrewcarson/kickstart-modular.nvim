@@ -1,3 +1,22 @@
+-- If completion is visible, make the next|previous suggestion,
+-- otherwise, show the menu and add the buffer
+local default_providers = { 'lsp', 'path', 'snippets', 'lazydev' }
+local function show_with_buffer(select_fn)
+  return function(cmp)
+    if cmp.is_visible() then
+      return select_fn(cmp)
+    end
+
+    local providers = vim.list_extend(vim.list_extend({}, default_providers), { 'buffer' })
+    return cmp.show {
+      providers = providers,
+      callback = function()
+        select_fn(cmp)
+      end,
+    }
+  end
+end
+
 return {
   { -- Autocompletion
     'saghen/blink.cmp',
@@ -36,6 +55,7 @@ return {
     --- @type blink.cmp.Config
     opts = {
       keymap = {
+        --
         -- 'default' (recommended) for mappings similar to built-in completions
         --   <c-y> to accept ([y]es) the completion.
         --    This will auto-import if your LSP supports it.
@@ -59,6 +79,15 @@ return {
         -- See :h blink-cmp-config-keymap for defining your own keymap
         preset = 'default',
 
+        -- When completion is manually invoked, include the buffer
+        -- in the search
+        ['<C-p>'] = { show_with_buffer(function(c)
+          return c.select_prev()
+        end) },
+        ['<C-n>'] = { show_with_buffer(function(c)
+          return c.select_next()
+        end) },
+
         -- For more advanced Luasnip keymaps (e.g. selecting choice nodes, expansion) see:
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       },
@@ -76,7 +105,7 @@ return {
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
+        default = default_providers,
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
         },
