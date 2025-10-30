@@ -65,4 +65,6 @@ vim.keymap.set('n', '<A-j>', '<C-w>j', { desc = 'Move to below window' })
 vim.keymap.set('n', '<A-k>', '<C-w>k', { desc = 'Move to above window' })
 vim.keymap.set('n', '<A-l>', '<C-w>l', { desc = 'Move to right window' })
 
+vim.keymap.set({ 'n', 'i', 'v' }, '<F1>', '<Nop>')
+
 -- vim: ts=2 sts=2 sw=2 et
